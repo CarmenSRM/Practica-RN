@@ -1,82 +1,18 @@
-import { StatusBar } from 'expo-status-bar'; 
-import { Component } from 'react'; 
-import { StyleSheet, View, Text, Button, Switch, TextInput, Alert} from 'react-native'; 
+import { Component } from 'react';
+import LoginView from './src/LoginView';
+import HomeView from './src/HomeView';
+import {Actions, Scene, Router} from 'react-native-router-flux'; 
 
-export default class App extends Component {  
-  constructor(props) {
-    super(props)
-    this.state = {
-      switchValue: false,
-      textValue: '',
-    }
-  }
+const scenes = Actions.create(
+  <Scene key="root">
+    <Scene key="login" component={LoginView} hideNavBar/>
+    <Scene key="home" component={HomeView} hideNavBar/>
+  </Scene>
+)
 
-  // switch
-  onChangeSwitch = (value) => {
-    console.warn(`El switch cambiara a: ${value}`);
-    this.setState({switchValue: value}) 
-  }
-
-
-  // textInput
-  onChangeTextInput = (value) => {
-    this.setState({textValue: value})
-    console.log(`El valor del input es: ${value}`)
-  }
-
-  // button
-  onPressLearnMore() {
-    console.warn('Presionaste un boton');
-  }
-
-  showAlert () {
-    Alert.alert(
-      `${this.state.textValue}`,
-      `${'Es lo que se escribió'}`,
-      [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]
-    );
-  }
-  
-
+//Revisar diapositiva 2 ante posible error 
+export default class App extends Component {true  
   render() {
-    return (
-      <View style={styles.container}>
-
-        <TextInput 
-          style={styles.input}
-          onChangeText={(text)=> this.onChangeTextInput(text)}
-          value = {this.state.textValue}
-        />
-        
-        <Switch
-          onValueChange={()=> this.onChangeSwitch(!this.state.switchValue)}
-          value={this.state.switchValue}
-        />
-        
-        <Button
-          /*onPress={this.onPressLearnMore}*/
-          onPress={this.showAlert.bind(this)}
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-
-        <Text style={styles.welcome}>MyMusic - Carmen</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        
-
-      </View>
-    );
+    return <Router scenes={scenes}/>
   }
 }
-
-const styles = StyleSheet.create({
-  container: { //button
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
